@@ -4,9 +4,9 @@ from fastapi import FastAPI, Depends, HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 import sqlite3
-from backend.database import init_db, get_connection
-from backend.models import EarnRequest, EarnResponse, RedeemRequest, RedeemResponse, BalanceResponse
-from backend.crud import earn_points, redeem_points, get_balance, DuplicateOrderError, InsufficientPointsError, RedemptionCapExceededError
+from app.database import init_db, get_connection
+from app.models import EarnRequest, EarnResponse, RedeemRequest, RedeemResponse, BalanceResponse
+from app.crud import earn_points, redeem_points, get_balance, DuplicateOrderError, InsufficientPointsError, RedemptionCapExceededError
 
 # Module-level connection for lifespan
 _conn = None
@@ -21,7 +21,7 @@ async def lifespan(app):
     _conn = get_connection(os.getenv("DB_PATH", "points.db"))
     init_db(_conn)
     if os.getenv("SEED_DB", "false").lower() == "true":
-        from backend.seed import seed; seed(_conn)
+        from app.seed import seed; seed(_conn)
     yield
     if _conn: _conn.close()
 
@@ -52,5 +52,5 @@ def api_balance(customer_id: str, db=Depends(get_db)):
     if not data: raise HTTPException(404, f"Customer {customer_id} not found")
     return data
 
-if os.path.exists("frontend/out"):
-    app.mount("/", StaticFiles(directory="frontend/out", html=True), name="static")
+if os.path.exists("/app/frontend/out"):
+    app.mount("/", StaticFiles(directory="/app/frontend/out", html=True), name="static")

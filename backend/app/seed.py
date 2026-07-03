@@ -1,6 +1,6 @@
 import sqlite3, uuid, random
 from datetime import datetime, timezone, timedelta
-from backend.loyalty_engine import calculate_tier, calculate_points_earned
+from app.loyalty_engine import calculate_tier, calculate_points_earned
 
 CUSTOMERS = [
     ("cust-001","Emma Wilson","emma@example.com",120), ("cust-002","Liam Johnson","liam@example.com",280),

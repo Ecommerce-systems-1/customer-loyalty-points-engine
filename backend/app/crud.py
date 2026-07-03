@@ -1,6 +1,6 @@
 import sqlite3, uuid
 from datetime import datetime, timezone, timedelta
-from backend.loyalty_engine import calculate_tier, calculate_points_earned, calculate_max_redemption, get_next_tier_info, POINTS_EXPIRY_MONTHS
+from app.loyalty_engine import calculate_tier, calculate_points_earned, calculate_max_redemption, get_next_tier_info, POINTS_EXPIRY_MONTHS
 
 class DuplicateOrderError(Exception): pass
 class InsufficientPointsError(Exception): pass
